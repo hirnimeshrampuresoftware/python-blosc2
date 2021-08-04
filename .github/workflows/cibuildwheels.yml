@@ -21,16 +21,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        arch: [x86, amd64, aarch64]
+        arch: [x86, amd64]
         exclude:
           - os: ubuntu-latest
             arch: x86
           - os: macos-latest
             arch: x86
-          - os: windows-latest
-            arch: aarch64
-          - os: macos-latest
-            arch: aarch64
 
     steps:
       - name: Checkout repo
@@ -42,10 +38,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.7'
-          
-      - name: Set up QEMU
-        if: ${{ matrix.arch == 'aarch64' }}
-        uses: docker/setup-qemu-action@v1          
 
       - name: Install Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
@@ -60,7 +52,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install -r requirements-tests.txt
-
       - name: Build wheels (Windows x86)
         if: ${{ runner.os == 'Windows' && matrix.arch == 'x86'}}
         run: |
@@ -130,11 +121,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install -r requirements-tests.txt
-
       - name: Build sdist
         run: |
           python setup.py sdist
-
       - name: Upload sdist package
         uses: actions/upload-artifact@v2
         with:
@@ -146,13 +135,10 @@ jobs:
           tar -xzf blosc2-*.tar.gz
           cd ./blosc2-*/
           python setup.py build_ext --inplace
-
       - name: Test sdist package with pytest
         run: |
           cd ./dist/blosc2-*/
           python -m pytest
-
-
   upload_pypi:
     needs: [ build_wheels, build_sdist ]  # last but not least
     runs-on: ubuntu-latest
