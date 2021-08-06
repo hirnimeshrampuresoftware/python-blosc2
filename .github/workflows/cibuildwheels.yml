@@ -20,7 +20,7 @@ jobs:
    # if: startsWith(github.event.ref, 'refs/tags')
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest]
         arch: [auto]
         #exclude:
           #- os: windows-latest
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.7'
+          python-version: '3.6'
           
       - uses: docker/setup-qemu-action@v1
         if: ${{ matrix.arch == 'aarch64' }}
