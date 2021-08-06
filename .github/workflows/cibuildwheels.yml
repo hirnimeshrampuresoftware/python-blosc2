@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.6'
+          python-version: '3.7'
           
       - uses: docker/setup-qemu-action@v1
         if: ${{ matrix.arch == 'aarch64' }}
