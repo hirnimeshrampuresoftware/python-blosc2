@@ -20,7 +20,7 @@ jobs:
    # if: startsWith(github.event.ref, 'refs/tags')
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest]
         arch: [auto]
         #exclude:
           #- os: windows-latest
