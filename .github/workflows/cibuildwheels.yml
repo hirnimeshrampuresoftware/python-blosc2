@@ -27,6 +27,7 @@ jobs:
             arch: aarch64
           - os: macos-latest
             arch: aarch64
+      fail-fast: false
 
     steps:
       - name: Checkout repo
